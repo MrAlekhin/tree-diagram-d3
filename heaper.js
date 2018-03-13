@@ -222,11 +222,21 @@ setTimeout(function () {
 function diagonal(s, d) {
   //console.log('in diag and s = ', s);
   //console.log('d = ', d)
+  if(s.x <= d.x){
+    console.log('yes');
+    path = `M ${s.x} ${s.y}
+            C ${s.x+(d.x - s.x) * 1 / 4} ${s.y + (s.y - d.y) * 1/6 },
+              ${s.x+(d.x - s.x) * 5 / 6} ${s.y + (s.y - d.y) * 3 / 4},
+              ${d.x} ${d.y}`
+  }
+  else{
+    path = `M ${s.x} ${s.y}
+            C ${s.x-(s.x - d.x) * 1 / 4} ${s.y + (s.y - d.y) * 1 / 6},
+              ${s.x-(s.x - d.x) * 5 / 6} ${s.y + (s.y - d.y) * 3 / 4},
+              ${d.x} ${d.y}`
+  }
 
-  path = `M ${s.x} ${s.y}
-          C ${(s.x + d.x) / 2} ${s.y},
-            ${(s.x + d.x) / 2} ${d.y},
-            ${d.x} ${d.y}`
+
 
   return path;
 
