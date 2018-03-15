@@ -1,24 +1,38 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
 .node {
   cursor: pointer;
 }
 
 .node circle {
-  fill: red;
-  stroke: steelblue;
-  stroke-width: 1.5px;
+  fill: #84171C;
+  stroke: #D12028;
+  stroke-width: 6px;
 }
 
 .node text {
-  font: 10px sans-serif;
-  fill: red;
+  font-size: 1em;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  fill: #f2f2f2;
 }
 
 .link {
   fill: none;
-  stroke: #ccc;
-  stroke-width: 1.5px;
+  stroke: #D12028;
+  stroke-width: 1px;
+}
+#heap{
+  background: black;
+  color: white;
+
 }
 body{
-  background-color: black;
-  color: white;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+img{
+  position: absolute;
 }

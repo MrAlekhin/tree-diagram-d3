@@ -1,4 +1,123 @@
-var numbs = [ 4, 7, 8, 2, 3, 1, 23, 100, 34, 56, 57, 90, 4, 7, 8, 2, 3, 1, 23, 100, 34, 56, 57, 90 ]
+var treeData =
+{
+"name": "BU Head",
+"children": [
+  {
+      "name": "Manager",
+      "children": [
+        {
+            "name": "Team Lead",
+             "children": []
+        },
+        {
+            "name": "Team Lead",
+            "children": []
+        },
+        {
+            "name": "Team Lead",
+            "children": []
+        },
+        {
+            "name": "Team Lead",
+            "children": []
+        }
+      ]
+  },
+  {
+      "name": "Manager",
+      "children": [
+        {
+            "name": "Team Lead",
+             "children": []
+        },
+        {
+            "name": "Team Lead",
+            "children": []
+        },
+        {
+            "name": "Team Lead",
+            "children": []
+        }
+      ]
+  },
+  {
+      "name": "Manager",
+      "children": [
+        {
+            "name": "Team Lead",
+             "children": []
+        },
+        {
+            "name": "Team Lead",
+            "children": []
+        },
+        {
+            "name": "Team Lead",
+            "children": []
+        },
+        {
+            "name": "Team Lead",
+            "children": []
+        }
+      ]
+  },
+  {
+      "name": "Manager",
+      "children": [
+        {
+            "name": "Team Lead",
+             "children": []
+        },
+        {
+            "name": "Team Lead",
+            "children": []
+        },
+        {
+            "name": "Team Lead",
+            "children": []
+        }
+      ]
+  },
+  {
+      "name": "Manager",
+      "children": [
+        {
+            "name": "Team Lead",
+             "children": []
+        },
+        {
+            "name": "Team Lead",
+            "children": []
+        },
+        {
+            "name": "Team Lead",
+            "children": []
+        },
+        {
+            "name": "Team Lead",
+            "children": []
+        }
+      ]
+  },
+  {
+      "name": "Manager",
+      "children": [
+        {
+            "name": "Team Lead",
+             "children": []
+        },
+        {
+            "name": "Team Lead",
+            "children": []
+        },
+        {
+            "name": "Team Lead",
+            "children": []
+        }
+      ]
+  }
+]
+};
 
 var margin = { left: window.innerWidth/2},
     width = window.innerWidth,
@@ -9,29 +128,30 @@ var i = 0,
     root;
 
 var counter = 0;
-var treeData = {};
 
 var svg = d3.select("#heap")
         .append("svg")
-        .attr("width", width+20)
-        .attr("height", height+20)
+        .attr("width", width)
+        .attr("height", height)
 
 var g = svg.append("g")
-        .attr("transform", "translate(" + 20 + "," + 20 + ")");
+        .attr("transform", "translate(" + 0 + "," + 100+ ")");
 
 var tree = d3.tree()
-            .size([width/2, height/2]);
+            .size([width, height]);
 
 
-function buildHeap(inData){
 
-   var newsource = {name: inData[0], children: getChildren(0, inData) }
+function buildTree(){
+
 //   console.log('dl', newsource)
 
-   root = d3.hierarchy(newsource, function(d) { return d.children; });
+   root = d3.hierarchy(treeData, function(d) { return d.children; });
 
    root.x0 = 0;
-   root.y0 = width/2;
+   root.y0 = width;
+
+   root.children.forEach(collapse);
 
    update(root)
 }
@@ -43,9 +163,12 @@ var nodes;
 function update(source){
 //  root = d3.hierarchy(newsource, function(d) { return d.children; });
 
-  var treeData = tree(root)
+  var treeData = tree(root);
   nodes = treeData.descendants();
   var links = treeData.descendants().slice(1);
+
+  // Normalize for fixed-depth.
+  nodes.forEach(function(d){ d.y = d.depth* 60 * d.depth});
 
   // ****************** Nodes section ***************************
   // Update the nodes...
@@ -64,8 +187,8 @@ function update(source){
   nodeEnter.append('circle')
            .attr('class', 'node')
            .attr('r', 1e-6)
-           .style("fill", function(d) {
-                 return d._children ? "lightsteelblue" : "#fff";
+           .style("stroke-width", function(d) {
+                 return d._children ? "6px" : "0";
            });
 
 // Add labels for the nodes
@@ -92,8 +215,8 @@ function update(source){
   // Update the node attributes and style
   nodeUpdate.select('circle.node')
         .attr('r', 10)
-        .style("fill", function(d) {
-            return d._children ? "lightsteelblue" : "#fff";
+        .style("stroke-width", function(d) {
+            return d._children ? "6px" : "0";
         })
         .attr('cursor', 'pointer');
 
@@ -193,7 +316,7 @@ function getChildren(i, arr) {
 // balancing binary heaps
 function expandChildren(index, chi){
 setTimeout(function () {
- //buildHeap([ 4, 3, 2, 9, 14, 29] );
+
  console.log('hooho', nodes)
  if(nodes[index].children === null){
    nodes[0].children = [nodes[0]._children[chi]]
@@ -270,4 +393,4 @@ function collapse(d) {
 }
 
 
-buildHeap( numbs )
+buildTree();
