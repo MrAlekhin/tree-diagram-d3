@@ -237,9 +237,7 @@ function update(source){
           .attr("x", function(d) {
                 return d.children || d._children ? -13 : 13;
           })
-          .attr("text-anchor", function(d) {
-                return d.children || d._children ? "end" : "start";
-          })
+          .attr("text-anchor", "middle")
            .text(function(d) { return d.data.name; });
 
   // UPDATE
