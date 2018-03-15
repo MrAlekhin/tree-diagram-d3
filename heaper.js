@@ -104,7 +104,25 @@ var treeData =
       "children": [
         {
             "name": "Team Lead",
-             "children": []
+             "children": [
+               {
+                 "name": "Manager",
+                 "children": [
+                   {
+                       "name": "Team Lead",
+                        "children": []
+                   },
+                   {
+                       "name": "Team Lead",
+                       "children": []
+                   },
+                   {
+                       "name": "Team Lead",
+                       "children": []
+                   }
+                 ]
+               }
+           ]
         },
         {
             "name": "Team Lead",
@@ -138,13 +156,17 @@ var g = svg.append("g")
         .attr("transform", "translate(" + 0 + "," + 100+ ")");
 
 var tree = d3.tree()
-            .size([width, height]);
+  .size([width, height]);
 
 
 
 function buildTree(){
 
 //   console.log('dl', newsource)
+   tree = d3.tree()
+              .size([width, height]);
+   svg.attr("width", width)
+   .attr("height", height);
 
    root = d3.hierarchy(treeData, function(d) { return d.children; });
 
@@ -168,7 +190,25 @@ function update(source){
   var links = treeData.descendants().slice(1);
 
   // Normalize for fixed-depth.
-  nodes.forEach(function(d){ d.y = d.depth* 60 * d.depth});
+  nodes.forEach(function(d){
+    var x;
+    var a;
+    if(d.parent){
+      if(d.parent.x>d.x){
+        x = d.parent.x - d.x;
+      }else{
+        x = d.x - d.parent.x;
+      }
+      if(d.depth === 0){
+        a = 1;
+      }else{
+        a = d.depth;
+      }
+      d.y = (x*x) * (-a)/3000 + a*180;
+    }else{
+      d.y = d.depth* 180;
+    }
+  });
 
   // ****************** Nodes section ***************************
   // Update the nodes...
@@ -394,3 +434,9 @@ function collapse(d) {
 
 
 buildTree();
+
+window.addEventListener('resize', function(){
+  width = window.innerWidth;
+  height = window.innerHeight;
+  buildTree();
+})

@@ -36,3 +36,17 @@ body{
 img{
   position: absolute;
 }
+path {
+  stroke-dasharray: 10;
+  animation: dash 5s linear;
+}
+
+g{
+  width: 100%;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 1000;
+  }
+}
