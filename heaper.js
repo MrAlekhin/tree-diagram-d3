@@ -426,7 +426,7 @@ function collapse(d) {
     d._children = d.children
     d.children = null;
     d._children.forEach(collapse)
-
+    console.log(d);
   }
 }
 
@@ -438,3 +438,11 @@ window.addEventListener('resize', function(){
   height = window.innerHeight;
   buildTree();
 })
+
+// Setup the animation loop.
+function animate(time) {
+	requestAnimationFrame(animate);
+	TWEEN.update(time);
+}
+
+requestAnimationFrame(animate);
